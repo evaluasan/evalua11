@@ -24,8 +24,8 @@ button{background:#0b3766;color:#fff;border:0;border-radius:12px;padding:14px 24
 
 <br><br>
 
-<label for="nombre2"><b>Estudiante 2 - Primer apellido y nombres</b></label>
-<input type="text" id="nombre2" placeholder="Ejemplo: Pérez Juan Carlos">
+<label for="nombre2"><b>Estudiante 2 - Primer apellido y nombres (opcional)</b></label>
+<input type="text" id="nombre2" placeholder="Opcional si realiza la evaluación solo">
 
 <div class="grado" id="curso">11</div>
 <p>La nota no se mostrará. Al finalizar solo aparecerá <b>APROBÓ</b> o <b>NO APROBÓ</b>.</p>
@@ -43,8 +43,11 @@ function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()
 function continuarEvaluacion(){
  const nombre1=document.getElementById("nombre1").value.trim();
  const nombre2=document.getElementById("nombre2").value.trim();
- if(!nombre1){alert("Completa los datos del estudiante 1.");document.getElementById("nombre1").focus();return;}
- if(!nombre2){alert("Completa los datos del estudiante 2.");document.getElementById("nombre2").focus();return;}
+ if(!nombre1){
+   alert("Completa los datos del estudiante 1.");
+   document.getElementById("nombre1").focus();
+   return;
+ }
  shuffle(questions);
  questions.forEach(q=>shuffle(q.options));
  datosCard.classList.add("hidden");
@@ -64,10 +67,12 @@ function finishQuiz(){
  let estado=nota>=60?"APROBÓ":"NO APROBÓ";
  let nombre1=document.getElementById("nombre1").value.trim();
  let nombre2=document.getElementById("nombre2").value.trim();
- let nombres=nombre1+" / "+nombre2;
+ let nombres=nombre2 ? nombre1+" / "+nombre2 : nombre1;
  let c=curso.textContent.trim();
  resultText.textContent=estado;
- studentText.textContent=`Estudiantes: ${nombre1} y ${nombre2} | Grado: ${c}`;
+ studentText.textContent=nombre2
+   ? `Estudiantes: ${nombre1} y ${nombre2} | Grado: ${c}`
+   : `Estudiante: ${nombre1} | Grado: ${c}`;
  enviar(nombres,c,nota);
 }
 document.addEventListener("contextmenu",e=>e.preventDefault());document.addEventListener("dragstart",e=>e.preventDefault());document.addEventListener("selectstart",e=>e.preventDefault());document.addEventListener("keydown",e=>{let k=e.key.toLowerCase();if((e.ctrlKey||e.metaKey)&&["c","v","x","a","u","s","p"].includes(k))e.preventDefault();if((e.ctrlKey||e.metaKey)&&e.shiftKey&&["i","j","c"].includes(k))e.preventDefault();if(e.key==="F12")e.preventDefault()});
